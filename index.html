@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Cluster proto VERTICAL</title>
+    <title>Cluster VERTICAL</title>
 
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -52,6 +52,8 @@
 	var footer = $(".footer");
 	var pymChild = null;
 	
+	var legendColourArray = [ "#274796" , "#F5942F", "#E73F40", "#7BCAE2" ];
+	
 	function drawGraphic(width) {
 	
 	   	var threshold_md = 788;  // new code ..
@@ -82,7 +84,7 @@
 	
 	
 		/* START MODIFIED */
-		var color = d3.scale.ordinal().range(dvc.essential.legendColourArray);
+		var color = d3.scale.ordinal().range(legendColourArray);
 		/* END MODIFIED */
 
 		
@@ -94,7 +96,7 @@
 					.selectAll('g')
 						.data(dvc.essential.legendLabels)
 					.enter().append('li')		    
-			legend.append('b').attr("class", "legendBlocks").style("background-color", function(d,i) { return dvc.essential.legendColourArray[i]; }).style("opacity", 0.75);
+			legend.append('b').attr("class", "legendBlocks").style("background-color", function(d,i) { return legendColourArray[i]; }).style("opacity", 0.75);
 			legend.append('label').html(function(d,i) { return dvc.essential.legendLabels[i]; });						
 		}
 		
@@ -145,7 +147,7 @@
 		//y domain calculations	: zero to intelligent max choice, or intelligent min and max choice,  or interval chosen manually
 		if (dvc.essential.yAxisScale == "auto_zero_max"){
 		   var yDomain = [
-							0, dvc.maxVal
+							0, /*dvc.maxVal*/Math.ceil(dvc.maxVal/100)*100
 /*								d3.max(d3.entries(dvc.dataMaxArray), function(c) {
 								return d3.max(c.value, function(v) {
 									var n = v.amt;
@@ -167,7 +169,8 @@
 									var n = v.amt;
 									return Math.ceil(n);
 								});
-							})*/dvc.maxVal
+							})*/
+							/*dvc.maxVal*/Math.ceil(dvc.maxVal/100)*100
 						];
 		} else {
 		   var yDomain = dvc.essential.yAxisScale;
